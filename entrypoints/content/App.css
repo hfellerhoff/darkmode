@@ -1,0 +1,93 @@
+#black-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: max(300vh, 300vw);
+    height: max(300vh, 300vw);
+    background: black;
+    z-index: 9998;
+}
+
+#black-screen[data-tool="cursor"] {
+    pointer-events: none;
+}
+
+#black-screen[data-tool="flashlight"] {
+    cursor: url("~/assets/flashlight.png"), not-allowed;
+}
+
+#tool-switcher {
+    position: fixed;
+    z-index: 9999;
+    padding: 1rem 1rem;
+    background: white !important;
+    border-radius: 8px;
+    bottom: 2rem;
+    left: 2rem;
+}
+
+#battery-container {
+    position: fixed;
+    z-index: 9999;
+    /*background: "white";*/
+    bottom: 2rem;
+    right: 2rem;
+    padding: 4px;
+    background: gray;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 100px;
+    display: "flex";
+    align-items: "center";
+    justify-content: "flex-end";
+}
+#knob-container {
+    position: fixed;
+    z-index: 9999;
+    /*background: "white";*/
+    top: 2rem;
+    right: 4rem;
+    background: gray;
+    display: "flex";
+    align-items: "center";
+    justify-content: "center";
+}
+
+/*dial*/
+
+#virtual_knob {
+    font-size: 28px;
+    height: 120px;
+    left: 50%;
+    line-height: 58px;
+    position: absolute;
+    top: calc(50% + 40px);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    width: 120px;
+}
+
+#knob {
+    background-color: white;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+    box-shadow: 0px 1px 7px 1px rgba(32, 32, 32, 0.7);
+    box-sizing: border-box;
+    color: white;
+    font-size: 28px;
+    height: 80px;
+    left: 20px;
+    line-height: 58px;
+    position: absolute;
+    top: 20px;
+    width: 80px;
+}
+
+#dial {
+    background-color: #70757a;
+    height: 14px;
+    left: 58px;
+    position: absolute;
+    top: 24px;
+    width: 2px;
+}
