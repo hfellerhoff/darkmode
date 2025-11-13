@@ -4,6 +4,8 @@ import { BatteryDial } from "./BatteryDial";
 
 function App() {
   const [tool, setTool] = useState("cursor");
+  const [isFlashlightOn, setIsFlashlightOn] = useState(false);
+
   const [mousePosition, setMousePosition] = useState<[number, number]>([0, 0]);
 
   const [battery, setBattery] = useState(100);
@@ -22,6 +24,21 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isFlashlightOn) {
+      batteryIntervalRef.current = setInterval(() => {
+        setBattery((prevBattery) => {
+          if (prevBattery === 0) return 0;
+          return prevBattery - 1;
+        });
+      }, 100);
+    } else {
+      if (!!batteryIntervalRef.current) {
+        clearInterval(batteryIntervalRef.current);
+      }
+    }
+  }, [isFlashlightOn]);
+
   const adjustment = Math.max(
     window.innerWidth * 1.5,
     window.innerHeight * 1.5,
@@ -35,6 +52,8 @@ function App() {
   } else if (battery < 66) {
     batteryColor = "yellow";
   }
+
+  const shouldShowLight = tool === "flashlight" && isFlashlightOn;
 
   return (
     <>
@@ -68,15 +87,19 @@ function App() {
         data-tool={tool}
         style={{
           color: "red",
-          maskImage:
-            tool === "flashlight"
-              ? `url('data:image/svg+xml;utf8,<svg style="overflow: visible;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" preserveAspectRatio="none"><circle r="${flashlightSize}" cx="95" cy="95" fill="black"/></svg>'), linear-gradient(#fff, #fff)`
-              : undefined,
+          maskImage: shouldShowLight
+            ? `url('data:image/svg+xml;utf8,<svg style="overflow: visible;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" preserveAspectRatio="none"><circle r="${flashlightSize}" cx="95" cy="95" fill="black"/></svg>'), linear-gradient(#fff, #fff)`
+            : undefined,
           maskComposite: "exclude",
           // maskPosition: `${mousePosition[0] - 200}px ${mousePosition[1] - 200}px`,
           maskPosition: "50% 50%",
           maskRepeat: "no-repeat",
           translate: `${mousePosition[0] - adjustment - 10}px ${mousePosition[1] - adjustment - 10}px`,
+        }}
+        onClick={() => {
+          if (tool === "flashlight") {
+            setIsFlashlightOn((prevValue) => !prevValue);
+          }
         }}
       />
       <button
@@ -84,19 +107,12 @@ function App() {
         onClick={() => {
           setTool((prevTool) => {
             if (tool === "cursor") {
-              batteryIntervalRef.current = setInterval(() => {
-                setBattery((prevBattery) => {
-                  if (prevBattery === 0) return 0;
-                  return prevBattery - 1;
-                });
-              }, 100);
+              setIsFlashlightOn(true);
 
               return "flashlight";
             }
             if (tool === "flashlight") {
-              if (!!batteryIntervalRef.current) {
-                clearInterval(batteryIntervalRef.current);
-              }
+              setIsFlashlightOn(false);
 
               return "cursor";
             }
