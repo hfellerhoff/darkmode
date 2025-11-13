@@ -1,14 +1,13 @@
 // entrypoints/example-ui.content/index.tsx
 import ReactDOM from "react-dom/client";
 import App from "./content/App";
-// import App from "./App.tsx";
+import "./content/App.css";
 
 export default defineContentScript({
   matches: ["*://*/*"],
-
   main(ctx) {
     const ui = createIntegratedUi(ctx, {
-      position: "inline",
+      position: "overlay",
       anchor: "body",
       onMount: (container) => {
         console.log("mount");

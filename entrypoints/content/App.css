@@ -12,10 +12,6 @@
     pointer-events: none;
 }
 
-#black-screen[data-tool="flashlight"] {
-    cursor: url("~/assets/flashlight.png"), not-allowed;
-}
-
 #tool-switcher {
     position: fixed;
     z-index: 9999;
@@ -24,6 +20,7 @@
     border-radius: 8px;
     bottom: 2rem;
     left: 2rem;
+    border: none !important;
 }
 
 #battery-container {
@@ -36,7 +33,7 @@
     background: gray;
     border-radius: 16px;
     overflow: hidden;
-    width: 100px;
+    width: 108px;
     display: "flex";
     align-items: "center";
     justify-content: "flex-end";
@@ -45,8 +42,8 @@
     position: fixed;
     z-index: 9999;
     /*background: "white";*/
-    top: 2rem;
-    right: 4rem;
+    top: 4rem;
+    right: 6rem;
     background: gray;
     display: "flex";
     align-items: "center";

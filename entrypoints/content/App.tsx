@@ -1,6 +1,9 @@
-import "./App.css";
 import { useState, useRef } from "react";
 import { BatteryDial } from "./BatteryDial";
+
+import flashlightOnSrc from "~/assets/flashlight.png";
+import flashlightOffSrc from "~/assets/flashlight-off.png";
+import cursorSrc from "~/assets/cursor.png";
 
 function App() {
   const [tool, setTool] = useState("cursor");
@@ -54,6 +57,14 @@ function App() {
   }
 
   const shouldShowLight = tool === "flashlight" && isFlashlightOn;
+  const shouldHideLight = tool === "flashlight" && !isFlashlightOn;
+  let cursor = "auto";
+  if (shouldShowLight) {
+    cursor = `url(${flashlightOnSrc}), auto`;
+  }
+  if (shouldHideLight) {
+    cursor = `url(${flashlightOffSrc}), auto`;
+  }
 
   return (
     <>
@@ -85,6 +96,7 @@ function App() {
       <div
         id="black-screen"
         data-tool={tool}
+        data-power={isFlashlightOn}
         style={{
           color: "red",
           maskImage: shouldShowLight
@@ -95,6 +107,7 @@ function App() {
           maskPosition: "50% 50%",
           maskRepeat: "no-repeat",
           translate: `${mousePosition[0] - adjustment - 10}px ${mousePosition[1] - adjustment - 10}px`,
+          cursor: cursor,
         }}
         onClick={() => {
           if (tool === "flashlight") {
@@ -120,7 +133,13 @@ function App() {
           });
         }}
       >
-        Switch to {tool === "flashlight" ? "Cursor" : "Flashlight"}
+        <img
+          src={tool === "cursor" ? flashlightOnSrc : cursorSrc}
+          style={{
+            height: 32,
+            width: 32,
+          }}
+        />
       </button>
     </>
   );
